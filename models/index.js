@@ -9,26 +9,35 @@ module.exports = {
 
 const Page = db.define('page', {
     title: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      isAlphanumeric: true,
+      defaultValue: "No Subject"
     },
     slug: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     content: {
-      type: Sequelize.TEXT
+      type: Sequelize.TEXT,
+      allowNull: false
     },
     status: {
       type: Sequelize.ENUM('open', 'closed')
     }
   });
-  
+
   const User = db.define('user', {
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: "anonymous"
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {isEmail: true}
     }
   });
-  
-  module.exports = { Page, User };
+
+  module.exports = { db, Page, User };

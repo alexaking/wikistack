@@ -3,6 +3,11 @@ const express = require ("express");
 const layout = require("./views/layout.js")
 const models = require('./models');
 const { db } = require('./models');
+const userRouter = require("./routes/user")
+const wikiRouter = require("./routes/wiki")
+const app = express();
+
+app.use("/wiki", wikiRouter)
 
 // db.authenticate().
 // then(() => {
@@ -12,8 +17,6 @@ const { db } = require('./models');
 // const client = require('./db');
 // const routes = require('./routes/posts');
 
-const app = express();
-
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
@@ -21,7 +24,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
     res.send(layout(""));
   });
-  
+
 //sync our database models
   const PORT = 3000;
 
