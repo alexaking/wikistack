@@ -7,6 +7,8 @@ const userRouter = require("./routes/user")
 const wikiRouter = require("./routes/wiki")
 const app = express();
 
+
+
 app.use("/wiki", wikiRouter)
 
 // db.authenticate().
@@ -22,7 +24,8 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.send(layout(""));
+    // res.send(layout(""));
+    res.redirect('/wiki/')
   });
 
 //sync our database models
