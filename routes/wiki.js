@@ -7,18 +7,18 @@ app.use(express.urlencoded({ extended: true }));
 
 const { Page } = require("../models");
 const {addPage} = require("../views")
+const {main} = require("../views")
 
 
 router.get
 router.get("/", (req, res) => {
   //try{
-  res.send("")
+  res.send(main())
   //}catch{}
 })
 
 router.post('/', async (req, res, next) => {
-  res.json(req.body)
-  
+  console.log(req.body)
   // STUDENT ASSIGNMENT:
   // add definitions for `title` and `content`
 
@@ -31,7 +31,7 @@ router.post('/', async (req, res, next) => {
   // note: `.save` returns a promise.
   try {
     await page.save();
-    res.redirect('/');
+    res.redirect(`/wiki/${page.slug}`);
   } catch (error) { next(error) }
 });
 
@@ -45,5 +45,17 @@ router.get("/add", (req, res) => {
     console.log(error);
   }
 })
+
+router.get('/:slug', async (req, res, next) => {
+  try{
+    const page = await Page.findOne({
+      where:{
+        slug: req.params.slug
+      }
+    });
+    res.json(page);
+  }
+  catch(error){next(error)}
+});
 
 module.exports = router;
