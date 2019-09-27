@@ -7,15 +7,20 @@ const userRouter = require("./routes/user")
 const wikiRouter = require("./routes/wiki")
 const app = express();
 
+app.use(morgan('dev'));
+app.use(express.static(__dirname + "/public"));
+app.use(express.urlencoded({ extended: false }));
+
 app.use("/wiki", wikiRouter)
 
 app.get("/", (req, res, next) => {
-  res.redirect("/wiki")
+  res.redirect('/wiki')
 })
-// db.authenticate().
-// then(() => {
-//   console.log('connected to the database');
-// })
+
+db.authenticate().
+then(() => {
+  console.log('connected to the database');
+})
 
 // const client = require('./db');
 // const routes = require('./routes/posts');
@@ -24,12 +29,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', (req, res) => {
-    res.send(layout(""));
-  });
 
 //sync our database models
-  const PORT = 3000;
 
 const init = async() =>{
     await models.db.sync({force: true})
@@ -39,3 +40,5 @@ const init = async() =>{
 }
 
 init()
+
+const PORT = 3000;
